@@ -1,0 +1,19 @@
+{
+    "name": "isuttell/php-lorem-ipsum",
+    "description": "Creates random fake text for testing",
+    "authors": [
+        {
+            "name": "Isaac Suttell",
+            "email": "isaac@e-mc2.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Ipsum": "src/"
+        }
+    }
+}
