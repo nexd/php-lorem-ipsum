@@ -23,16 +23,19 @@ And then run `composer install`
 
 Documentation
 ---------------
-The following example creates three random paragraphs
+The following example creates five random paragraphs
 
 ```
 use \Lorem\Ipsum;
-echo Ipsum::paragraphs(3);
+echo Ipsum::paragraphs();
 ```
 
 ## Available Methods
 
 `Ipsum::paragraphs($count = 5);`
+
 `Ipsum::sentences($count = 5);`
+
 `Ipsum::words($count = 5);`
+
 `Ipsum::title($count = 5);`
