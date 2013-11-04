@@ -23,3 +23,8 @@ echo "*** Title ***".PHP_EOL;
 echo Ipsum::title();
 
 echo PHP_EOL . PHP_EOL;
+
+echo "*** Email ***".PHP_EOL;
+echo Ipsum::email();
+
+echo PHP_EOL . PHP_EOL;

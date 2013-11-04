@@ -96,4 +96,42 @@ class Ipsum {
 		$words = static::words($count);
 		return ucwords($words);
 	}
+
+	/**
+	 * Generates a fake email address
+	 * @return string
+	 */
+	public static function email()
+	{
+		$endings = array('com', 'net', 'org', 'co.uk');
+		if(mt_rand(0, 5) === 0)
+		{
+			$email = static::words(1);
+			if(mt_rand(0,2)=== 0)
+			{
+				$email .= '+';
+			}
+			else
+			{
+				$email .= '.';
+			}
+			$email .= static::words(1);
+		}
+		else
+		{
+			$email = str_replace(" ", "", static::words(mt_rand(1,2)));
+		}
+		$email .= '@';
+		if(mt_rand(0, 3) === 0)
+		{
+			$email .= str_replace(" ", "-", static::words(2));
+		}
+		else
+		{
+			$email .= str_replace(" ", "", static::words(mt_rand(1,2)));
+		}
+		$email .= '.' . $endings[mt_rand(0, 3)];
+
+		return $email;
+	}
 }
