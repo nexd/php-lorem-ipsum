@@ -8,17 +8,17 @@ Installation
 To install add the following to your `composer.json`:
 ```
 "require": {
-	"isuttell/php-lorem-ipsum" : "@dev"
+	"isuttell/php-lorem-ipsum" : "dev-master"
 },
 "repositories": [
 	{
 		"type": "vcs",
-		"url" : "git@github.com:isuttell/php-lorem-ipsum.git"
+		"url" : "https://github.com/isuttell/php-lorem-ipsum.git"
 	}
 ]
 ```
 
-And then run `composer install`
+And then run `composer update`
 
 
 Documentation
