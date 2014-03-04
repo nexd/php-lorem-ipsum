@@ -1,0 +1,106 @@
+#!/usr/bin/env php
+<?php
+/*
+Copyright (c) 2014 Michel Petit <petit.michel@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+
+
+(@include_once __DIR__ . '/../vendor/autoload.php') || @include_once __DIR__ . '/../../../autoload.php';
+
+if(phpversion() >= '5.5.0')
+{
+    cli_set_process_title('lorem');
+}
+
+$opt = \Malenki\Argile\Options::getInstance();
+
+$opt->flexible();
+
+$opt->version(
+    'Lorem Ipsum CLI version 1.0'.
+    "\n".
+    "\n".
+    "\n".
+
+'Copyright (c) 2013 Isaac Suttell'.
+    "\n".
+'Copyright (c) 2014 Michel Petit <petit.michel@gmail.com>'.
+"\n".
+    "\n".
+'Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:'.
+"\n".
+    "\n".
+'The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.'.
+"\n".
+    "\n".
+'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.'
+);
+
+
+$opt->description('Generate random Lorem Ipsum texts as paragraphs, sentences, words, title or email.');
+
+$opt->newValue('paragraphs')->short('p')->long('paragraph')->help('Generates N paragraphs.', 'N');
+$opt->newValue('sentences')->short('s')->long('sentence')->help('Generates N sentences.', 'N');
+$opt->newValue('words')->short('w')->long('word')->help('Generates N words.', 'N');
+$opt->newValue('title')->short('t')->long('title')->help('Generates title having N words.', 'N');
+$opt->newValue('email')->short('e')->long('email')->help('Generates N comma separated emails.', 'N');
+
+$opt->parse();
+
+foreach(array('paragraphs', 'sentences', 'words', 'title', 'email') as $str_opt)
+{
+if($opt->has($str_opt))
+{
+    $mixed_val = $opt->get($str_opt);
+
+    if(is_bool($mixed_val) && ! $mixed_val)
+    {
+        echo \Lorem\Ipsum::$str_opt(1);
+        exit();
+    }
+
+    if(is_numeric($mixed_val))
+    {
+        try
+        {
+            $mixed_out = \Lorem\Ipsum::$str_opt((integer) $mixed_val);
+
+            if(is_string($mixed_out))
+            {
+                echo $mixed_out;
+            }
+            else
+            {
+                echo implode(', ', $mixed_out);
+            }
+            exit();
+        }
+        catch(\InvalidArgumentException $e)
+        {
+            fwrite(STDERR, $e->getMessage());
+            fwrite(STDERR, PHP_EOL);
+            exit(1);
+        }
+    }
+}
+}
