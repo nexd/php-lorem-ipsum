@@ -1,4 +1,26 @@
 <?php
+/*
+Copyright (c) 2013 Isaac Suttell
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 namespace Lorem;
 /**
  * Fake Text Generator
@@ -18,12 +40,15 @@ class Ipsum {
 	 */
 	public static function paragraphs($count = 5)
 	{
-		$paragraphs = '';
-		for($i = 0; $i < $count; $i++ ) {
+        $arr = array();
+
+        for($i = 0; $i < $count; $i++ )
+        {
 			$paragraph = static::sentences(mt_rand(2, 8));
-			$paragraphs .= trim($paragraph) . PHP_EOL . PHP_EOL;
-		}
-		return trim($paragraphs);
+			$arr[] = trim($paragraph);
+        }
+
+		return trim(implode(PHP_EOL.PHP_EOL, $arr));
 	}
 
 	/**
@@ -98,40 +123,47 @@ class Ipsum {
 	}
 
 	/**
-	 * Generates a fake email address
-	 * @return string
+	 * Generates fake email addresses
+	 * @param  integer $count the number of emails to create
+	 * @return mixed string if only one, array of strings if more than one.
 	 */
-	public static function email()
-	{
-		$endings = array('com', 'net', 'org', 'co.uk');
-		if(mt_rand(0, 5) === 0)
-		{
-			$email = static::words(1);
-			if(mt_rand(0,2)=== 0)
-			{
-				$email .= '+';
-			}
-			else
-			{
-				$email .= '.';
-			}
-			$email .= static::words(1);
-		}
-		else
-		{
-			$email = str_replace(" ", "", static::words(mt_rand(1,2)));
-		}
-		$email .= '@';
-		if(mt_rand(0, 3) === 0)
-		{
-			$email .= str_replace(" ", "-", static::words(2));
-		}
-		else
-		{
-			$email .= str_replace(" ", "", static::words(mt_rand(1,2)));
-		}
-		$email .= '.' . $endings[mt_rand(0, 3)];
+	public static function email($count = 1)
+    {
+        $arr = array();
 
-		return $email;
-	}
+        for($i = 0; $i < $count; $i++ )
+        {
+            $endings = array('com', 'net', 'org', 'co.uk');
+            if(mt_rand(0, 5) === 0)
+            {
+                $email = static::words(1);
+                if(mt_rand(0,2)=== 0)
+                {
+                    $email .= '+';
+                }
+                else
+                {
+                    $email .= '.';
+                }
+                $email .= static::words(1);
+            }
+            else
+            {
+                $email = str_replace(" ", "", static::words(mt_rand(1,2)));
+            }
+            $email .= '@';
+            if(mt_rand(0, 3) === 0)
+            {
+                $email .= str_replace(" ", "-", static::words(2));
+            }
+            else
+            {
+                $email .= str_replace(" ", "", static::words(mt_rand(1,2)));
+            }
+            $email .= '.' . $endings[mt_rand(0, 3)];
+            $arr[] = $email;
+        }
+
+        return count($arr) > 1 ? $arr : array_pop($arr);
+    }
 }
