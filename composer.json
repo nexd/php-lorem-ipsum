@@ -1,16 +1,25 @@
 {
     "name": "isuttell/php-lorem-ipsum",
     "description": "Creates random fake text for testing",
+    "type": "library",
+    "keywords": ["lorem ipsum", "fake", "text", "filltext", "latin"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Isaac Suttell",
             "email": "isaac@isaacsuttell.com"
+        },
+        {
+            "name": "Michel Petit",
+            "email": "petit.michel@gmail.com"
         }
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "malenki/argile": ">=3.0"
     },
+    "bin": ["bin/lorem"],    
     "autoload": {
         "psr-0": {
             "Lorem\\": "src/"
